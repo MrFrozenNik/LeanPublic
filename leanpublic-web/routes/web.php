@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\GitHubController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/auth/github', [GitHubController::class, 'redirect'])->name('auth.github');
+Route::get('/auth/github/callback', [GitHubController::class, 'callback']);
 
 Route::get('/', function () {
     return view('welcome');
