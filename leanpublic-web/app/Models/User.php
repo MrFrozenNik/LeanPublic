@@ -29,4 +29,31 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredient::class, 'owner_id');
+    }
+
+    public function dishes()
+    {
+        return $this->hasMany(Dish::class, 'owner_id');
+    }
+
+    public function diaryEntries()
+    {
+        return $this->hasMany(DiaryEntry::class);
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(User::class, 'trainer_links', 'trainer_id', 'client_id')
+            ->withTimestamps();
+    }
+
+    public function trainers()
+    {
+        return $this->belongsToMany(User::class, 'trainer_links', 'client_id', 'trainer_id')
+            ->withTimestamps();
+    }
 }
