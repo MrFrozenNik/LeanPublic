@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\GitHubController;
+use App\Http\Controllers\DishController;
+use App\Http\Controllers\DishIngredientController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +25,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('ingredients', IngredientController::class)
         ->except(['show', 'create']);
+    Route::resource('dishes', DishController::class)->except(['show']);
+
+    Route::post('/dishes/{dish}/ingredients', [DishIngredientController::class, 'store'])
+        ->name('dishes.ingredients.store');
+
+    Route::delete('/dishes/{dish}/ingredients/{ingredient}', [DishIngredientController::class, 'destroy'])
+        ->name('dishes.ingredients.destroy');
 });
 
 require __DIR__.'/auth.php';

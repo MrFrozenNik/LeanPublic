@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('ingredients.index')" :active="request()->routeIs('ingredients.*')">
                         Ингредиенты
                     </x-nav-link>
+                    <x-nav-link :href="route('dishes.index')" :active="request()->routeIs('dishes.*')">
+                        Блюда
+                    </x-nav-link>
                 </div>
             </div>
 
