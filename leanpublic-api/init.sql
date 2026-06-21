@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS dish_ratings (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    dish_id BIGINT UNSIGNED NOT NULL,
+    trainer_id BIGINT UNSIGNED NOT NULL,
+    verdict ENUM('up', 'mid', 'down') NOT NULL,
+    comment TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (dish_id) REFERENCES dishes(id) ON DELETE CASCADE,
+    FOREIGN KEY (trainer_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_rating (dish_id, trainer_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
