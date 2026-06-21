@@ -21,6 +21,15 @@
                     <x-nav-link :href="route('dishes.index')" :active="request()->routeIs('dishes.*')">
                         Блюда
                     </x-nav-link>
+                    <x-nav-link :href="route('diary.index')" :active="request()->routeIs('diary.*')">
+                        Дневник
+                    </x-nav-link>
+
+                    @if (auth()->user()->clients()->exists())
+                        <x-nav-link :href="route('trainer.dashboard')" :active="request()->routeIs('trainer.dashboard')">
+                            Клиенты
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

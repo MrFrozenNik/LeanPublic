@@ -54,6 +54,7 @@ class User extends Authenticatable
     public function trainers()
     {
         return $this->belongsToMany(User::class, 'trainer_links', 'client_id', 'trainer_id')
+            ->withPivot('id')
             ->withTimestamps();
     }
 }

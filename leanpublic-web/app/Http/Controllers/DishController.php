@@ -13,6 +13,7 @@ class DishController extends Controller
         $dishes = $request->user()
             ->dishes()
             ->withCount('ingredients')
+            ->with('ingredients')
             ->latest()
             ->paginate(15);
 

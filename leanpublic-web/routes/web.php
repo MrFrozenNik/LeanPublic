@@ -5,6 +5,9 @@ use App\Http\Controllers\DishController;
 use App\Http\Controllers\DishIngredientController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DiaryEntryController;
+use App\Http\Controllers\TrainerDashboardController;
+use App\Http\Controllers\TrainerLinkController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/auth/github', [GitHubController::class, 'redirect'])->name('auth.github');
@@ -32,6 +35,17 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/dishes/{dish}/ingredients/{ingredient}', [DishIngredientController::class, 'destroy'])
         ->name('dishes.ingredients.destroy');
+
+    Route::get('/diary', [DiaryEntryController::class, 'index'])->name('diary.index');
+    Route::post('/diary', [DiaryEntryController::class, 'store'])->name('diary.store');
+    Route::delete('/diary/{diaryEntry}', [DiaryEntryController::class, 'destroy'])->name('diary.destroy');
+
+
+
+    Route::post('/trainers', [TrainerLinkController::class, 'store'])->name('trainers.store');
+    Route::delete('/trainers/{trainerLink}', [TrainerLinkController::class, 'destroy'])->name('trainers.destroy');
+
+    Route::get('/trainer/dashboard', [TrainerDashboardController::class, 'index'])->name('trainer.dashboard');
 });
 
 require __DIR__.'/auth.php';

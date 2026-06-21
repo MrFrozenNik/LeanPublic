@@ -24,6 +24,10 @@
                     @include('profile.partials.delete-user-form')
                 </div>
             </div>
+
+            <div class="max-w-xl">
+                @include('profile.partials.trainer-access-form')
+            </div>
         </div>
     </div>
 </x-app-layout>
