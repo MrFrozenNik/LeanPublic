@@ -27,6 +27,7 @@ class TrainerDashboardController extends Controller
                 ->get();
         }
 
-        return view('trainer.dashboard', compact('clients', 'diaries', 'date'));
+        return view('trainer.dashboard', compact('clients', 'diaries', 'date'))
+            ->with('fastapiWsUrl', config('fastapi.ws_url'));
     }
 }

@@ -28,7 +28,7 @@
                         <th class="px-3 py-2">Ккал</th>
                     </tr>
                     </thead>
-                    <tbody class="divide-y" id="diary-{{ $client->id }}">
+                    <tbody class="divide-y" id="diary-{{ $client->id }}" data-ws-url="{{ $fastapiWsUrl }}">
                     @forelse ($diaries[$client->id] as $entry)
                         <tr>
                             <td class="px-3 py-2">{{ $entry->eaten_at->format('H:i') }}</td>

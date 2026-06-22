@@ -11,13 +11,8 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="{{ asset('js/trainer-dashboard.jsx') }}" type="text/babel" defer></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/diary-ws.js'])
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
