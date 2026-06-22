@@ -1,0 +1,73 @@
+services:
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - LARAVEL_DOMAIN=${LARAVEL_DOMAIN}
+      - FASTAPI_DOMAIN=${FASTAPI_DOMAIN}
+    volumes:
+      - nginx-certs:/etc/nginx/certs
+    depends_on:
+      - laravel
+      - fastapi
+    networks:
+      - leanpublic
+
+  laravel:
+    build: ./laravel
+    env_file:
+      - ./laravel/.env
+    volumes:
+      - laravel-storage:/var/www/html/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - leanpublic
+
+  fastapi:
+    build: ./fastapi
+    env_file:
+      - ./fastapi/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - leanpublic
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./fastapi/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - leanpublic
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - leanpublic
+
+volumes:
+  laravel-storage:
+  mysql-data:
+
+networks:
+  leanpublic:
