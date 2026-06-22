@@ -3,9 +3,9 @@ import React from 'react';
 const { useState, useEffect, useRef } = React;
 
 const VERDICTS = [
-    { value: 'up', label: 'Good' },
-    { value: 'mid', label: 'ok' },
-    { value: 'down', label: 'Bad' },
+    { value: 'up', label: '1' },
+    { value: 'mid', label: '2' },
+    { value: 'down', label: '3' },
 ];
 
 function RatingButtons({ dishId, trainerId, apiUrl, currentVerdict, onChanged }) {
