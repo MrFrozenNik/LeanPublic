@@ -18,10 +18,14 @@ services:
 
   laravel:
     build: ./laravel
-    env_file:
-      - ./laravel/.env
+    restart: on-failure
+    env_file: ./laravel/.env
     volumes:
       - laravel-storage:/var/www/html/storage
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 5s
+      retries: 10
     depends_on:
       mysql:
         condition: service_healthy
@@ -51,7 +55,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./fastapi/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
