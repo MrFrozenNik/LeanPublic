@@ -8,6 +8,7 @@ DB_CONFIG = {
     'password': os.getenv('DB_PASSWORD', 'leanpublic_password'),
     'db': os.getenv('DB_NAME', 'leanpublic'),
     'charset': 'utf8mb4',
+    'ssl': None,
 }
 
 async def get_db():
