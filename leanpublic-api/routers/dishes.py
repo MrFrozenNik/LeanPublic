@@ -19,7 +19,7 @@ class RatingUpdate(BaseModel):
 
 
 @router.get('/dishes/{dish_id}')
-async def get_dish(dish_id: int, trainer_id: int = Query(0)):
+async def get_dish(dish_id: int, trainer_id: int | None = Query(None)):
     conn = await get_db()
     async with conn.cursor() as cursor:
         await cursor.execute(
@@ -59,7 +59,7 @@ async def get_dish(dish_id: int, trainer_id: int = Query(0)):
             totals['carb'] += float(r[5]) * factor
 
         rating = None
-        if trainer_id:
+        if trainer_id is not None:
             await cursor.execute(
                 '''SELECT id, dish_id, trainer_id, verdict, created_at, updated_at
                    FROM dish_ratings

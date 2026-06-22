@@ -32,7 +32,7 @@ async def calc_entry_totals(cursor, entry: dict) -> dict:
             (entry['dish_id'],),
         )
         rows = await cursor.fetchall()
-        dish_weight = sum(r[4] for r in rows)
+        dish_weight = float(sum(r[4] for r in rows))
         if dish_weight <= 0:
             return {'kcal': 0, 'protein': 0, 'fat': 0, 'carb': 0}
         portion_factor = entry['grams'] / dish_weight
