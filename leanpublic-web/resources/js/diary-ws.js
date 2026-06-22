@@ -4,6 +4,8 @@ import TrainerDiary from './Components/TrainerDiary';
 
 document.querySelectorAll('[id^="diary-"]').forEach(el => {
     const clientId = parseInt(el.id.replace('diary-', ''));
+    const apiUrl = el.dataset.apiUrl;
+    const date = el.dataset.date;
     const root = createRoot(el);
-    root.render(React.createElement(TrainerDiary, { clientId }));
+    root.render(React.createElement(TrainerDiary, { clientId, date, apiUrl }));
 });

@@ -28,23 +28,9 @@
                         <th class="px-3 py-2">Ккал</th>
                     </tr>
                     </thead>
-                    <tbody class="divide-y" id="diary-{{ $client->id }}" data-ws-url="{{ $fastapiWsUrl }}">
-                    @forelse ($diaries[$client->id] as $entry)
-                        <tr>
-                            <td class="px-3 py-2">{{ $entry->eaten_at->format('H:i') }}</td>
-                            <td class="px-3 py-2">
-                                {{ $entry->dish->name ?? $entry->ingredient->name ?? '—' }}
-                            </td>
-                            <td class="px-3 py-2">{{ $entry->grams }} г</td>
-                            <td class="px-3 py-2">{{ round($entry->totals['kcal']) }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="px-3 py-4 text-center text-gray-500">
-                                Сегодня записей пока нет
-                            </td>
-                        </tr>
-                    @endforelse
+                    <tbody class="divide-y" id="diary-{{ $client->id }}"
+                           data-api-url="{{ $fastapiApiUrl }}"
+                           data-date="{{ $date->toDateString() }}">
                     </tbody>
                 </table>
             </div>
