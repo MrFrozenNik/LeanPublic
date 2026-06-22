@@ -10,7 +10,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 COPY . .
 
-RUN composer install --optimize-autoloader --no-dev \
+RUN composer install --optimize-autoloader \
     && npm ci && npm run build \
     && chown -R www-data:www-data storage bootstrap/cache \
     && rm -rf node_modules
