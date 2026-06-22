@@ -1,38 +1,45 @@
-from fastapi import APIRouter, WebSocket
-from typing import List
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from typing import Dict, List
 import json
 
 router = APIRouter()
 
 class ConnectionManager:
     def __init__(self):
-        self.active: List[WebSocket] = []
+        self.active: Dict[int, List[WebSocket]] = {}
 
-    async def connect(self, ws: WebSocket):
+    async def connect(self, client_id: int, ws: WebSocket):
         await ws.accept()
-        self.active.append(ws)
+        if client_id not in self.active:
+            self.active[client_id] = []
+        self.active[client_id].append(ws)
 
-    def disconnect(self, ws: WebSocket):
-        if ws in self.active:
-            self.active.remove(ws)
+    def disconnect(self, client_id: int, ws: WebSocket):
+        if client_id in self.active:
+            if ws in self.active[client_id]:
+                self.active[client_id].remove(ws)
+            if not self.active[client_id]:
+                del self.active[client_id]
 
-    async def broadcast(self, message: dict):
+    async def broadcast(self, client_id: int, message: dict):
+        if client_id not in self.active:
+            return
         dead = []
-        for ws in self.active:
+        for ws in self.active[client_id]:
             try:
-                await ws.send_text(json.dumps(message))
+                await ws.send_text(json.dumps(message, default=str))
             except Exception:
                 dead.append(ws)
         for ws in dead:
-            self.active.remove(ws)
+            self.disconnect(client_id, ws)
 
 manager = ConnectionManager()
 
-@router.websocket('/ws')
-async def websocket_endpoint(ws: WebSocket):
-    await manager.connect(ws)
+@router.websocket('/ws/clients/{client_id}/diary')
+async def diary_websocket(ws: WebSocket, client_id: int):
+    await manager.connect(client_id, ws)
     try:
         while True:
             await ws.receive_text()
     except Exception:
-        manager.disconnect(ws)
+        manager.disconnect(client_id, ws)
