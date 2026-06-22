@@ -16,4 +16,6 @@ php artisan view:cache
 php artisan migrate --force
 php artisan db:seed --force
 
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
 exec php-fpm
