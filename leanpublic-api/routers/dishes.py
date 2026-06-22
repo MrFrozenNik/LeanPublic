@@ -100,12 +100,30 @@ async def create_rating(dish_id: int, body: RatingIn):
             raise HTTPException(404, 'Dish not found')
 
         await cursor.execute(
-            'SELECT id FROM dish_ratings WHERE dish_id = %s AND trainer_id = %s',
+            'SELECT id, verdict FROM dish_ratings WHERE dish_id = %s AND trainer_id = %s',
             (dish_id, body.trainer_id),
         )
-        if await cursor.fetchone():
-            conn.close()
-            raise HTTPException(409, 'Rating already exists')
+        existing = await cursor.fetchone()
+
+        if existing:
+            existing_id, existing_verdict = existing
+            if existing_verdict == body.verdict.value:
+                await cursor.execute(
+                    '''SELECT id, dish_id, trainer_id, verdict, created_at, updated_at
+                       FROM dish_ratings WHERE id = %s''',
+                    (existing_id,),
+                )
+                row = await cursor.fetchone()
+                conn.close()
+                return {
+                    'id': row[0], 'dish_id': row[1], 'trainer_id': row[2],
+                    'verdict': row[3],
+                    'created_at': str(row[4]) if row[4] else None,
+                    'updated_at': str(row[5]) if row[5] else None,
+                }
+            else:
+                conn.close()
+                raise HTTPException(409, 'Rating already exists with a different verdict; use PUT to change it')
 
         await cursor.execute(
             'INSERT INTO dish_ratings (dish_id, trainer_id, verdict) VALUES (%s, %s, %s)',

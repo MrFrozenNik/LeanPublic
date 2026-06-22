@@ -73,6 +73,7 @@ async def row_to_entry(cursor, row) -> dict:
         'id': entry['id'],
         'grams': entry['grams'],
         'eaten_at': entry['eaten_at'],
+        'dish_id': entry['dish_id'],
         'dish_name': dish_name,
         'ingredient_name': ingredient_name,
         'totals': {k: round(v, 2) for k, v in totals.items()},

@@ -77,15 +77,17 @@ async def lifespan(app: FastAPI):
     task.cancel()
 
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(title='LeanPublic API', version='0.1.0', lifespan=lifespan)
 
-@app.middleware("http")
-async def cors_middleware(request, call_next):
-    response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Methods"] = "*"
-    response.headers["Access-Control-Allow-Headers"] = "*"
-    return response
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(diary.router)
 app.include_router(dishes.router)

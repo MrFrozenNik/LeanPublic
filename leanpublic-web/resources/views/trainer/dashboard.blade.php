@@ -26,11 +26,13 @@
                         <th class="px-3 py-2">Что</th>
                         <th class="px-3 py-2">Граммы</th>
                         <th class="px-3 py-2">Ккал</th>
+                        <th class="px-3 py-2">Оценка</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y" id="diary-{{ $client->id }}"
                            data-api-url="{{ $fastapiApiUrl }}"
-                           data-date="{{ $date->toDateString() }}">
+                           data-date="{{ $date->toDateString() }}"
+                           data-trainer-id="{{ auth()->id() }}">
                     </tbody>
                 </table>
             </div>
