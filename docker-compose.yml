@@ -10,6 +10,7 @@ services:
       - FASTAPI_DOMAIN=${FASTAPI_DOMAIN}
     volumes:
       - nginx-certs:/etc/nginx/certs
+      - laravel-public:/var/www/html/public
     depends_on:
       - laravel
       - fastapi
@@ -21,6 +22,7 @@ services:
     restart: on-failure
     volumes:
       - laravel-storage:/var/www/html/storage
+      - laravel-public:/var/www/html/public
     healthcheck:
       test: ["CMD", "php-fpm", "-t"]
       interval: 5s
@@ -71,6 +73,6 @@ volumes:
   laravel-storage:
   mysql-data:
   nginx-certs:
-
+  laravel-public:
 networks:
   leanpublic:
