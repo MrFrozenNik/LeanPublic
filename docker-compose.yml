@@ -68,6 +68,7 @@ services:
 volumes:
   laravel-storage:
   mysql-data:
+  nginx-certs:
 
 networks:
   leanpublic:
