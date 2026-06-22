@@ -13,6 +13,8 @@ COPY . .
 RUN composer install --optimize-autoloader \
     && npm ci && npm run build \
     && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 777 storage \
+    && chmod -R 777 bootstrap/cache \
     && rm -rf node_modules
 
 COPY docker/entrypoint.sh /entrypoint.sh

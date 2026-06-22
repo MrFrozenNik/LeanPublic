@@ -5,7 +5,7 @@ if [ ! -f .env ]; then
     cp .env.example .env
 fi
 
-if [ -z "$(grep '^APP_KEY=' .env | cut -d= -f2- | tr -d ' ')" ]; then
+if ! grep -q '^APP_KEY=.' .env 2>/dev/null; then
     php artisan key:generate --force
 fi
 
