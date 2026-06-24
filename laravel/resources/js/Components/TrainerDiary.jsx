@@ -3,10 +3,45 @@ import React from 'react';
 const { useState, useEffect, useRef } = React;
 
 const VERDICTS = [
-    { value: 'up', label: '1' },
-    { value: 'mid', label: '2' },
-    { value: 'down', label: '3' },
+    {
+        value: 'up',
+        title: 'Хорошо',
+        icon: (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M7 10v12" />
+                <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
+            </svg>
+        ),
+    },
+    {
+        value: 'mid',
+        title: 'Нормально',
+        icon: (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="8" y1="15" x2="16" y2="15" />
+                <line x1="9" y1="9" x2="9.01" y2="9" />
+                <line x1="15" y1="9" x2="15.01" y2="9" />
+            </svg>
+        ),
+    },
+    {
+        value: 'down',
+        title: 'Плохо',
+        icon: (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 14V2" />
+                <path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22h0a3.13 3.13 0 0 1-3-3.88Z" />
+            </svg>
+        ),
+    },
 ];
+
+const VERDICT_STYLES = {
+    up: 'bg-green-50 text-green-700 ring-1 ring-green-300',
+    mid: 'bg-gray-100 text-gray-700 ring-1 ring-gray-300',
+    down: 'bg-red-50 text-red-700 ring-1 ring-red-300',
+};
 
 function RatingButtons({ dishId, trainerId, apiUrl, currentVerdict, onChanged }) {
     const [verdict, setVerdict] = React.useState(currentVerdict);
@@ -58,18 +93,20 @@ function RatingButtons({ dishId, trainerId, apiUrl, currentVerdict, onChanged })
     }
 
     return (
-        <span className="inline-flex gap-1">
+        <span className="inline-flex gap-2">
             {VERDICTS.map(v => (
                 <button
                     key={v.value}
                     onClick={() => setRating(v.value)}
                     disabled={saving}
-                    title={v.value}
-                    className={`px-1.5 py-0.5 rounded text-sm ${
-                        verdict === v.value ? 'bg-indigo-100 ring-1 ring-indigo-400' : 'hover:bg-gray-100'
+                    title={v.title}
+                    className={`w-7 h-7 flex items-center justify-center rounded transition ${
+                        verdict === v.value
+                            ? VERDICT_STYLES[v.value]
+                            : 'text-gray-400 hover:bg-gray-100 hover:text-gray-600'
                     }`}
                 >
-                    {v.label}
+                    {v.icon}
                 </button>
             ))}
         </span>
