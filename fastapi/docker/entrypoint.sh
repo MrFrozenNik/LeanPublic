@@ -7,14 +7,10 @@ set -e
 : "${DB_PASSWORD:?leanpublic_password}"
 : "${DB_NAME:?leanpublic}"
 
-echo "wait for laravel migrations"
-until mysqlshow -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" dishes >/dev/null 2>&1; do
-    echo "dishes table not ready, wait 3s..."
-    sleep 3
-done
 
-echo "database ready, start init.sql..."
+echo "Executing init.sql..."
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < /app/init.sql
+echo "init.sql done"
 
-echo "starting FastAPI..."
+echo "Starting FastAPI..."
 exec uvicorn main:app --host 0.0.0.0 --port 8000

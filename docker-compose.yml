@@ -24,9 +24,11 @@ services:
       - laravel-storage:/var/www/html/storage
       - laravel-public:/var/www/html/public
     healthcheck:
-      test: ["CMD", "php-fpm", "-t"]
+      test: ["CMD-SHELL", "php artisan migrate:status | grep -q '2026_06_20_212256_add_github_id_to_users_table' || exit 1"]
       interval: 5s
-      retries: 10
+      timeout: 5s
+      retries: 30
+      start_period: 15s
     depends_on:
       mysql:
         condition: service_healthy
@@ -40,6 +42,8 @@ services:
     env_file:
       - ./fastapi/.env
     depends_on:
+      laravel:
+        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
