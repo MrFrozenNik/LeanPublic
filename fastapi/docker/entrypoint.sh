@@ -9,7 +9,7 @@ set -e
 
 
 echo "Executing init.sql..."
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < /app/init.sql
+mysql --ssl-mode=DISABLED -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < /app/init.sq
 echo "init.sql done"
 
 echo "Starting FastAPI..."
