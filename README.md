@@ -1,5 +1,5 @@
 # LeanPublic — дневник питания
-Сервис доступен по адресу leanpublic.nfrozensky.ai-info.ru , api - api.leanpublic.nfrozensky.ai-info.ru . Сервис может отвечать с задержками в связи с размещением на хостинге, подверженном DDoS-атакам
+Сервис доступен по адресу [leanpublic.nfrozensky.ai-info.ru](leanpublic.nfrozensky.ai-info.ru) , api - [api.leanpublic.nfrozensky.ai-info.ru](api.leanpublic.nfrozensky.ai-info.ru) . Сервис может отвечать с задержками в связи с размещением на хостинге, подверженном DDoS-атакам
 
 LeanPublic — веб-приложение для учёта КБЖУ, вдохновлённое FatSecret. Пользователи создают ингредиенты, собирают из них блюда и ведут дневник питания. Тренеры подключаются к клиентам и видят их дневник в реальном времени, оценивая блюда прямо в интерфейсе без перезагрузки страницы.
 
